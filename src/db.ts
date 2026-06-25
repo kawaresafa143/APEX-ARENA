@@ -43,8 +43,11 @@ class SQLiteDB implements DB {
         const sqlite3 = await import("sqlite3");
         const { open } = await import("sqlite");
         
+        const isVercel = !!process.env.VERCEL;
+        const filename = isVercel ? '/tmp/database.sqlite' : './database.sqlite';
+        
         this.db = await open({
-          filename: './database.sqlite',
+          filename,
           driver: sqlite3.default.Database
         });
 

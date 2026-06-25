@@ -130,11 +130,32 @@ DB_PORT=3306
 
 ### Building for Production
 
-To create a optimized, production-ready full-stack bundle:
+To create an optimized, production-ready full-stack bundle:
 ```bash
 npm run build
 npm start
 ```
+
+---
+
+## 🌐 Deploying to Vercel
+
+This project is fully configured for zero-downtime, continuous deployment to **Vercel** as a full-stack application. The frontend React single-page application is hosted on Vercel's Edge CDN, and the Express backend API automatically compiles into Vercel Serverless Functions.
+
+### 1. Preparation
+Vercel's serverless environment is ephemeral and read-only. We have built-in support that automatically shifts the fallback **SQLite database** file path to Vercel's secure writable `/tmp` space (`/tmp/database.sqlite`) if no external database is connected. 
+
+However, for permanent, durable cloud storage, it is highly recommended to connect a dedicated cloud database (such as **Aiven MySQL, Neon, Supabase, or TiDB Cloud**).
+
+### 2. Steps to Deploy
+1. **Push your code** to a GitHub, GitLab, or Bitbucket repository.
+2. Sign in to your [Vercel Dashboard](https://vercel.com/) and click **"Add New" ➔ "Project"**.
+3. Import your project's repository.
+4. Keep the default build settings (Vercel automatically detects Vite as the framework and sets the output directory to `dist`).
+5. Expand the **Environment Variables** section and configure:
+   - `GEMINI_API_KEY` (Your Google AI Gemini Developer Key)
+   - `DB_HOST`, `DB_USER`, `DB_PASSWORD`, `DB_NAME`, `DB_PORT` (Your cloud database credentials if not using Vercel's `/tmp` transient SQLite fallback).
+6. Click **"Deploy"**. Vercel will build your static assets and set up the serverless routing flawlessly.
 
 ---
 
